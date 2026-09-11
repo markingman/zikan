@@ -16,15 +16,4 @@ abstract class AbstractController extends Controller
 			$ControllerContext->Response,
 		);
 	}
-
-//	public function respond_page(PageInterface $Page): void
-//	{
-//		$this->Dispatch->call($this, 'load_partials');
-//		$this->Response->html($Page());
-//	}
-
-//	public function load_partials(LoadPartials $LoadPartials): void
-//	{
-//		$LoadPartials();
-//	}
 }
