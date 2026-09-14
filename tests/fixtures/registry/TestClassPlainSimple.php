@@ -1,5 +1,5 @@
 <?php
 
-return function (): PHPCanvas\Test\TestClassPlainSimple {
-	return new PHPCanvas\Test\TestClassPlainSimple();
+return function (): Zikan\Test\TestClassPlainSimple {
+	return new Zikan\Test\TestClassPlainSimple();
 };

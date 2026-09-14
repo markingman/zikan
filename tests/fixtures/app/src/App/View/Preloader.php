@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas\Test\App\View;
+namespace Zikan\Test\App\View;
 
 use FilesystemIterator;
 use RecursiveDirectoryIterator;

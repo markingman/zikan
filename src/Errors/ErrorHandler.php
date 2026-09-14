@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPCanvas\Errors;
+namespace Zikan\Errors;
 
 use Closure;
 use ErrorException;
-use PHPCanvas\Logs\LogHandler;
+use Zikan\Logs\LogHandler;
 use Throwable;
 
 /*

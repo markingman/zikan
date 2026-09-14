@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ObjectCacheError;
-use PHPCanvas\Exception\ObjectCacheException;
-use PHPCanvas\Test\TestClassPlainSimple;
+use Zikan\Exception\ObjectCacheError;
+use Zikan\Exception\ObjectCacheException;
+use Zikan\Test\TestClassPlainSimple;
 use PHPUnit\Framework\TestCase;
 
 class ObjectCacheTest extends TestCase

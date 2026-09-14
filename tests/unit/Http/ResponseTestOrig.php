@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPCanvas\Http;
+namespace Zikan\Http;
 
-use PHPCanvas\TestHelpersTrait;
+use Zikan\TestHelpersTrait;
 use PHPUnit\Framework\TestCase;
 
 class ResponseTestOrig extends TestCase

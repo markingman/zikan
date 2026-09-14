@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
 interface DispatchInterface
 {

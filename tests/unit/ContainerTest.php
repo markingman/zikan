@@ -1,18 +1,18 @@
 <?php
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ContainerError;
-use PHPCanvas\Exception\ContainerException;
-use PHPCanvas\Test\TestClassPlainSimple;
-use PHPCanvas\Test\TestClassWithArguments;
-use PHPCanvas\Test\TestClassWithException;
-use PHPCanvas\Test\TestClassWithNullableArguments;
-use PHPCanvas\Test\TestClassWithNullableUnionArgs;
-use PHPCanvas\Test\TestClassWithObjectArguments;
-use PHPCanvas\Test\TestClassWithSimpleMethods;
-use PHPCanvas\Test\TestClassWithUnionArgs;
-use PHPCanvas\Test\TestClassWithUnspecifiedArgs;
+use Zikan\Exception\ContainerError;
+use Zikan\Exception\ContainerException;
+use Zikan\Test\TestClassPlainSimple;
+use Zikan\Test\TestClassWithArguments;
+use Zikan\Test\TestClassWithException;
+use Zikan\Test\TestClassWithNullableArguments;
+use Zikan\Test\TestClassWithNullableUnionArgs;
+use Zikan\Test\TestClassWithObjectArguments;
+use Zikan\Test\TestClassWithSimpleMethods;
+use Zikan\Test\TestClassWithUnionArgs;
+use Zikan\Test\TestClassWithUnspecifiedArgs;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionParameter;

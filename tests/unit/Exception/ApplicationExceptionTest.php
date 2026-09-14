@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Exception;
+namespace Zikan\Exception;
 
 use PHPUnit\Framework\TestCase;
 

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas\Http;
+namespace Zikan\Http;
 
-use PHPCanvas\Exception\ResponseError;
-use PHPCanvas\Exception\ResponseException;
+use Zikan\Exception\ResponseError;
+use Zikan\Exception\ResponseException;
 
 class Response implements ResponseInterface
 {

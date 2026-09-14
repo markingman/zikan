@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Templates;
+namespace Zikan\Test\App\View\Templates;
 
-use PHPCanvas\Test\App\View\HTMLContext;
-use function PHPCanvas\Test\App\View\Partials\htmlspecialchars;
+use Zikan\Test\App\View\HTMLContext;
+use function Zikan\Test\App\View\Partials\htmlspecialchars;
 
 function default_template(
 	HTMLContext $HTML,

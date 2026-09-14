@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 .PHONY: help
-NAME=phpcanvas-test
+NAME=zikan-test
 PHP_SERVER_CMD = php -S 0.0.0.0:80 -t /var/www/tests/fixtures/app/html /var/www/tests/fixtures/app/router.php
 
 help:

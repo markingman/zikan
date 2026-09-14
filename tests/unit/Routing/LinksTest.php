@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
-use PHPCanvas\Exception\LinksException;
+use Zikan\Exception\LinksException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;

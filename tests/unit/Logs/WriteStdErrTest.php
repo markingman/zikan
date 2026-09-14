@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Logs;
+namespace Zikan\Logs;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

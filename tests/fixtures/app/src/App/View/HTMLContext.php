@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Test\App\View;
+namespace Zikan\Test\App\View;
 
 use RuntimeException;
 

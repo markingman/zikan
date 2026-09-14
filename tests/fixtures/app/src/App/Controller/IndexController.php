@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPCanvas\Test\App\Controller;
+namespace Zikan\Test\App\Controller;
 
-use PHPCanvas\Test\App\Model\ExampleModel;
-use PHPCanvas\Test\App\View\Pages\IndexContext;
-use PHPCanvas\Test\App\View\Pages\IndexPage;
+use Zikan\Test\App\Model\ExampleModel;
+use Zikan\Test\App\View\Pages\IndexContext;
+use Zikan\Test\App\View\Pages\IndexPage;
 
 class IndexController extends AbstractController
 {

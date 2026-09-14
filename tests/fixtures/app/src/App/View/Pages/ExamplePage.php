@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Pages;
+namespace Zikan\Test\App\View\Pages;
 
-use PHPCanvas\Test\App\View\Layouts\Block;
-use function PHPCanvas\Test\App\View\Templates\default_template;
+use Zikan\Test\App\View\Layouts\Block;
+use function Zikan\Test\App\View\Templates\default_template;
 
 class ExamplePage extends AbstractPage
 {

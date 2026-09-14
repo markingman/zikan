@@ -1,4 +1,4 @@
-phpcanvas
+Zikan
 =========
 
-A lightweight web application framework written in PHP
+A lightweight web application framework.

@@ -1,20 +1,20 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
-use PHPCanvas\Container;
-use PHPCanvas\ContainerInterface;
-use PHPCanvas\Exception\DispatchError;
-use PHPCanvas\Exception\DispatchException;
-use PHPCanvas\Http\Request;
-use PHPCanvas\Http\RequestInterface;
-use PHPCanvas\Http\Response;
-use PHPCanvas\Http\ResponseInterface;
-use PHPCanvas\Test\TestClassPlainSimple;
-use PHPCanvas\Test\TestClassWithInvokeException;
-use PHPCanvas\Test\TestClassWithMethodException;
-use PHPCanvas\Test\TestClassWithObjectArguments;
-use PHPCanvas\Test\TestClassWithSimpleMethods;
+use Zikan\Container;
+use Zikan\ContainerInterface;
+use Zikan\Exception\DispatchError;
+use Zikan\Exception\DispatchException;
+use Zikan\Http\Request;
+use Zikan\Http\RequestInterface;
+use Zikan\Http\Response;
+use Zikan\Http\ResponseInterface;
+use Zikan\Test\TestClassPlainSimple;
+use Zikan\Test\TestClassWithInvokeException;
+use Zikan\Test\TestClassWithMethodException;
+use Zikan\Test\TestClassWithObjectArguments;
+use Zikan\Test\TestClassWithSimpleMethods;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

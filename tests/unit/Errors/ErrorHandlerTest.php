@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Errors;
+namespace Zikan\Errors;
 
 use ErrorException;
-use PHPCanvas\Logs\LogHandler;
+use Zikan\Logs\LogHandler;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;

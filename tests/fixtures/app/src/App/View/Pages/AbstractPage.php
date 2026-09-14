@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Pages;
+namespace Zikan\Test\App\View\Pages;
 
-use PHPCanvas\Test\App\View\HTMLContext;
-use PHPCanvas\Test\App\View\Preloader;
+use Zikan\Test\App\View\HTMLContext;
+use Zikan\Test\App\View\Preloader;
 
 abstract class AbstractPage implements PageInterface
 {

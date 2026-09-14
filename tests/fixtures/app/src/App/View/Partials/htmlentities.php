@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Partials;
+namespace Zikan\Test\App\View\Partials;
 
 function htmlentities(string $string): string
 {

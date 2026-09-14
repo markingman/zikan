@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas;
+namespace Zikan;
 
 use RuntimeException;
 use tidy;

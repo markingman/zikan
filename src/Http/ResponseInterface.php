@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas\Http;
+namespace Zikan\Http;
 
 interface ResponseInterface
 {

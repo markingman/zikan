@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Pages;
+namespace Zikan\Test\App\View\Pages;
 
 readonly abstract class AbstractContext
 {

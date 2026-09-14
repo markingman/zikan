@@ -1,5 +1,5 @@
 <?php
 
-return function (): PHPCanvas\Test\TestClassWithObjectArguments {
-	return new PHPCanvas\Test\TestClassWithObjectArguments();
+return function (): Zikan\Test\TestClassWithObjectArguments {
+	return new Zikan\Test\TestClassWithObjectArguments();
 };

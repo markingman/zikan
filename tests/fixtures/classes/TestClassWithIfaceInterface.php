@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Test;
+namespace Zikan\Test;
 
 interface TestClassWithIfaceInterface
 {

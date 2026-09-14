@@ -1,12 +1,12 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
-use PHPCanvas\ContainerInterface;
-use PHPCanvas\Exception\DispatchError;
-use PHPCanvas\Exception\DispatchException;
-use PHPCanvas\Http\RequestInterface;
-use PHPCanvas\Http\ResponseInterface;
+use Zikan\ContainerInterface;
+use Zikan\Exception\DispatchError;
+use Zikan\Exception\DispatchException;
+use Zikan\Http\RequestInterface;
+use Zikan\Http\ResponseInterface;
 use Throwable;
 
 class Dispatch implements DispatchInterface

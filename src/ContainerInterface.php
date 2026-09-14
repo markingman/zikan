@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
 use Closure;
-use PHPCanvas\Exception\ContainerException;
+use Zikan\Exception\ContainerException;
 
 interface ContainerInterface
 {

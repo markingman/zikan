@@ -1,7 +1,7 @@
 <?php
 
-use PHPCanvas\Test\App\Controller\IndexController;
-use PHPCanvas\Test\App\Controller\ExampleController;
+use Zikan\Test\App\Controller\IndexController;
+use Zikan\Test\App\Controller\ExampleController;
 
 return [
 

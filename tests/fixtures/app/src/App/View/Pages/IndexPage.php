@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Pages;
+namespace Zikan\Test\App\View\Pages;
 
 use InvalidArgumentException;
-use function PHPCanvas\Test\App\View\Templates\default_template;
+use function Zikan\Test\App\View\Templates\default_template;
 
 class IndexPage extends AbstractPage
 {

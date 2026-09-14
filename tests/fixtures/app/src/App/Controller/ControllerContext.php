@@ -1,11 +1,11 @@
 <?php
 
-namespace PHPCanvas\Test\App\Controller;
+namespace Zikan\Test\App\Controller;
 
-use PHPCanvas\Config;
-use PHPCanvas\Http\Request;
-use PHPCanvas\Http\Response;
-use PHPCanvas\Routing\Dispatch;
+use Zikan\Config;
+use Zikan\Http\Request;
+use Zikan\Http\Response;
+use Zikan\Routing\Dispatch;
 
 readonly class ControllerContext
 {

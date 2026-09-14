@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ApplicationException;
-use PHPCanvas\Exception\ApplicationError;
-use PHPCanvas\Exception\ContainerException;
-use PHPCanvas\Http\RequestInterface;
-use PHPCanvas\Http\ResponseInterface;
-use PHPCanvas\Routing\DispatchInterface;
+use Zikan\Exception\ApplicationException;
+use Zikan\Exception\ApplicationError;
+use Zikan\Exception\ContainerException;
+use Zikan\Http\RequestInterface;
+use Zikan\Http\ResponseInterface;
+use Zikan\Routing\DispatchInterface;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;

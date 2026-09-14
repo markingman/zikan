@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ObjectCacheException;
+use Zikan\Exception\ObjectCacheException;
 
 interface ObjectCacheInterface
 {

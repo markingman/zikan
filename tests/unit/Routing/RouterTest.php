@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
-use PHPCanvas\Exception\RouterError;
-use PHPCanvas\Exception\RouterException;
+use Zikan\Exception\RouterError;
+use Zikan\Exception\RouterException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;

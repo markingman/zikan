@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPCanvas\Test\App\View\Layouts;
+namespace Zikan\Test\App\View\Layouts;
 
-use PHPCanvas\Test\App\View\HTMLContext;
-use function PHPCanvas\Test\App\View\Partials\htmlentities;
+use Zikan\Test\App\View\HTMLContext;
+use function Zikan\Test\App\View\Partials\htmlentities;
 
 class Block
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
 use PHPUnit\Framework\TestCase;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPCanvas\Http;
+namespace Zikan\Http;
 
-use PHPCanvas\Exception\ResponseError;
-use PHPCanvas\Exception\ResponseException;
-use PHPCanvas\TestHelpersTrait;
+use Zikan\Exception\ResponseError;
+use Zikan\Exception\ResponseException;
+use Zikan\TestHelpersTrait;
 use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase

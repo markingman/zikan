@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Http;
+namespace Zikan\Http;
 
 use DomainException;
 use PHPUnit\Framework\TestCase;

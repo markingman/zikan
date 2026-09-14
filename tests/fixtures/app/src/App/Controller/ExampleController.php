@@ -1,8 +1,8 @@
 <?php
 
-namespace PHPCanvas\Test\App\Controller;
+namespace Zikan\Test\App\Controller;
 
-use PHPCanvas\Test\App\View\Pages\ExamplePage;
+use Zikan\Test\App\View\Pages\ExamplePage;
 
 class ExampleController extends AbstractController
 {

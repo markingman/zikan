@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPCanvas\Routing;
+namespace Zikan\Routing;
 
 use Closure;
-use PHPCanvas\Exception\RouterError;
-use PHPCanvas\Exception\RouterException;
+use Zikan\Exception\RouterError;
+use Zikan\Exception\RouterException;
 
 class Router implements RouterInterface
 {

@@ -1,5 +1,5 @@
 {
-  "name": "markingman/phpcanvas",
+  "name": "markingman/zikan",
   "description": "A lightweight PHP web application framework",
   "license": "MIT",
   "type": "library",
@@ -9,18 +9,18 @@
   },
   "autoload": {
     "psr-4": {
-      "PHPCanvas\\": [
+      "Zikan\\": [
         "src"
       ]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PHPCanvas\\Test\\": [
+      "Zikan\\Test\\": [
         "tests/fixtures/classes",
         "tests/fixtures/app/src"
       ],
-      "PHPCanvas\\": [
+      "Zikan\\": [
         "tests/unit",
         "tests/integration"
       ]

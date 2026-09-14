@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ApplicationError;
-use PHPCanvas\Exception\ApplicationException;
-use PHPCanvas\Http\RequestInterface;
-use PHPCanvas\Http\ResponseInterface;
-use PHPCanvas\Routing\DispatchInterface;
+use Zikan\Exception\ApplicationError;
+use Zikan\Exception\ApplicationException;
+use Zikan\Http\RequestInterface;
+use Zikan\Http\ResponseInterface;
+use Zikan\Routing\DispatchInterface;
 use Throwable;
 
 class Application
 {
-	const float PHPCANVAS_VERSION = 4.0;
+	const float APP_VERSION = 3.0;
 
 	public function __construct(
 		public readonly ConfigInterface $Config,

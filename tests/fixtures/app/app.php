@@ -4,21 +4,21 @@ namespace App;
 
 use Closure;
 use LogicException;
-use PHPCanvas\Application;
-use PHPCanvas\Config;
-use PHPCanvas\Container;
-use PHPCanvas\ContainerInterface;
-use PHPCanvas\Errors\ErrorHandler;
-use PHPCanvas\Http\Request;
-use PHPCanvas\Http\Response;
-use PHPCanvas\Logs\LogFormatterString;
-use PHPCanvas\Logs\LogHandler;
-use PHPCanvas\Logs\WriteStdErr;
-use PHPCanvas\ObjectCache;
-use PHPCanvas\Test\App\View\Preloader;
-use PHPCanvas\Routing\Dispatch;
-use PHPCanvas\Routing\Links;
-use PHPCanvas\Routing\Router;
+use Zikan\Application;
+use Zikan\Config;
+use Zikan\Container;
+use Zikan\ContainerInterface;
+use Zikan\Errors\ErrorHandler;
+use Zikan\Http\Request;
+use Zikan\Http\Response;
+use Zikan\Logs\LogFormatterString;
+use Zikan\Logs\LogHandler;
+use Zikan\Logs\WriteStdErr;
+use Zikan\ObjectCache;
+use Zikan\Test\App\View\Preloader;
+use Zikan\Routing\Dispatch;
+use Zikan\Routing\Links;
+use Zikan\Routing\Router;
 use Throwable;
 
 // Generic bootstrap (copy and create new as required)

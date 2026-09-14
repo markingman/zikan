@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas\Exception;
+namespace Zikan\Exception;
 
 enum DispatchError: string
 {

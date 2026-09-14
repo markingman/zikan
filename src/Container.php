@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
 use Closure;
-use PHPCanvas\Exception\ContainerError;
-use PHPCanvas\Exception\ContainerException;
+use Zikan\Exception\ContainerError;
+use Zikan\Exception\ContainerException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;

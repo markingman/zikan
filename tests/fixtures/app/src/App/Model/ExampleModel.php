@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCanvas\Test\App\Model;
+namespace Zikan\Test\App\Model;
 
 class ExampleModel
 {

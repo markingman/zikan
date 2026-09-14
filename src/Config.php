@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PHPCanvas;
+namespace Zikan;
 
-use PHPCanvas\Exception\ConfigUnexpectedValueException;
+use Zikan\Exception\ConfigUnexpectedValueException;
 
 final class Config implements ConfigInterface
 {
