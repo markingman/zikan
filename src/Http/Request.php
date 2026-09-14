@@ -19,7 +19,7 @@ class Request implements RequestInterface
 
 	protected ?bool $is_ajax = null;
 	protected ?bool $is_ssl = null;
-	/** @var array<string, mixed> $GETX Manually set GETX values, e.g. from /url/path/{var} */
+	/** @var array<mixed> $GETX Manually set GETX values, e.g. from /url/path/{var} */
 	protected array $GETX = [];
 	protected ?string $method = null;
 	protected ?string $path = null;
@@ -31,11 +31,11 @@ class Request implements RequestInterface
 
 	/**
 	 * Remember COW semantics, omitted &'s are intentional
-	 * @param array<string, mixed> $GET
-	 * @param array<string, mixed> $POST
-	 * @param array<string, mixed> $FILES
-	 * @param array<string, mixed> $SERVER
-	 * @param array<string, mixed> $COOKIE
+	 * @param array<mixed> $GET
+	 * @param array<mixed> $POST
+	 * @param array<mixed> $FILES
+	 * @param array<mixed> $SERVER
+	 * @param array<mixed> $COOKIE
 	 */
 	public function __construct(
 		protected readonly array $GET,
@@ -284,25 +284,25 @@ class Request implements RequestInterface
 		return [$this->get_method(), $this->get_path()];
 	}
 
-	/** @return array<string, mixed> */
+	/** @return array<mixed> */
 	public function all_get(): array
 	{
 		return $this->GET;
 	}
 
-	/** @return array<string, mixed> */
+	/** @return array<mixed> */
 	public function all_getx(): array
 	{
 		return $this->GETX;
 	}
 
-	/** @return array<string, mixed> */
+	/** @return array<mixed> */
 	public function all_post(): array
 	{
 		return $this->POST;
 	}
 
-	/** @return array<string, mixed> */
+	/** @return array<mixed> */
 	public function all_files(): array
 	{
 		return $this->FILES;
@@ -354,11 +354,11 @@ class Request implements RequestInterface
 	/**  @param string|string[] $vars */
 	protected function get_int_request(string $input_type, string|array $vars = 'id', int $default = 0, int $min_range = 0): int
 	{
-		$this->validate_input_type($input_type);
+		$input = $this->get_input($input_type);
 
 		foreach ((array)$vars as $var) {
-			if ($this->is_usable_input($this->$input_type, $var)) {
-				return $this->filter_int($this->$input_type[$var], $default, $min_range);
+			if ($this->is_usable_input($input, $var)) {
+				return $this->filter_int($input[$var], $default, $min_range);
 			}
 		}
 
@@ -368,11 +368,11 @@ class Request implements RequestInterface
 	/**  @param string|string[] $vars */
 	protected function get_var_request(string $input_type, string|array $vars = 'arg1', string $default = ''): string
 	{
-		$this->validate_input_type($input_type);
+		$input = $this->get_input($input_type);
 
 		foreach ((array)$vars as $var) {
-			if ($this->is_usable_input($this->$input_type, $var)) {
-				return $this->filter_regx_var($this->$input_type[$var]);
+			if ($this->is_usable_input($input, $var)) {
+				return $this->filter_regx_var($input[$var]);
 			}
 		}
 
@@ -382,11 +382,11 @@ class Request implements RequestInterface
 	/**  @param string|string[] $vars */
 	protected function get_val_request(string $input_type, string|array $vars = 'arg1', string $default = ''): string
 	{
-		$this->validate_input_type($input_type);
+		$input = $this->get_input($input_type);
 
 		foreach ((array)$vars as $var) {
-			if ($this->is_usable_input($this->$input_type, $var)) {
-				return $this->filter_val($this->$input_type[$var]);
+			if ($this->is_usable_input($input, $var)) {
+				return $this->filter_val($input[$var]);
 			}
 		}
 
@@ -407,7 +407,12 @@ class Request implements RequestInterface
 		$return = array_filter($return, 'is_string');
 
 		return array_map(callback: function ($value) use ($filter): string {
-			return $this->$filter($value);
+			return match($filter) {
+				'filter_regx_var' => $this->filter_regx_var($value),
+				'filter_val' => $this->filter_val($value),
+				'filter_var' => $this->filter_var($value),
+				default => '',
+			};
 		}, array: array_values($return));
 	}
 
@@ -459,10 +464,18 @@ class Request implements RequestInterface
 	 */
 	protected function get_array_single_level(string $input_type, string|int $var, array $default): array
 	{
-		$this->validate_input_type($input_type);
+		$input = $this->get_input($input_type);
 
-		if (isset($this->$input_type[$var])) {
-			return array_values((array)$this->$input_type[$var]);
+		if (isset($input[$var])) {
+			$return = [];
+			
+			foreach ((array) $input[$var] as $v) {
+				if (is_string($v)) {
+					$return[] = $v;
+				}
+			}
+			
+			return $return;
 		} else {
 			return $default;
 		}
@@ -497,15 +510,19 @@ class Request implements RequestInterface
 		return false;
 	}
 
-	/** @throws DomainException If the wrong type */
-	private function validate_input_type(string $input_type): void
+	/** @throws DomainException If the wrong type
+	@return array<mixed> */
+	private function get_input(string $input_type): array
 	{
-		if (!in_array($input_type, [static::INPUT_TYPE_GET, static::INPUT_TYPE_POST, static::INPUT_TYPE_GETX], true)) {
-			throw new DomainException("Unsupported input source: '$input_type'");
-		}
+		return match ($input_type) {
+			static::INPUT_TYPE_GET => $this->GET,
+			static::INPUT_TYPE_POST => $this->POST,
+			static::INPUT_TYPE_GETX => $this->GETX,
+			default => throw new DomainException("Unsupported input source: '$input_type'"),
+		};
 	}
 
-	/** @param array<string, mixed> $input */
+	/** @param array<mixed> $input */
 	private function is_usable_input(array $input, string $var): bool
 	{
 		return (isset($input[$var]) and is_string($input[$var]));

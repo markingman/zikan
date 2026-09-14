@@ -236,6 +236,7 @@ class Container implements ContainerInterface
 
 	protected function get_registrations_realpath(string $name): string|false
 	{
+		/** @var array<string, string|false> $paths */
 		static $paths = [];
 
 		if (!isset($paths[$name])) {

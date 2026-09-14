@@ -55,9 +55,7 @@ class RouterTest extends TestCase
 		);
 	}
 
-	/**
-	 * @param array<string> $m
-	 */
+	/** @param array<mixed> $m */
 	public static function __test_callback_method_function(string $method, Route $route, array $m, string $url): RouteMatch|false
 	{
 		if (!Router::is_route_method($method, $route->method)) {
@@ -719,14 +717,19 @@ class RouterTest extends TestCase
 
 		foreach ($routes as $name => $route) {
 			$callback = $route['callback'] ?? null;
+			$wrapped_callback = null;
+			if ($callback !== null) {
+				/** @param array<string> $m */
+				$wrapped_callback = function (string $method, Route $route, array $m, string $url) use ($callback) {
+					return $callback($method, $route, $m, $url);
+				};
+			}
 			$this->Router->add_route(
 				name: $name,
 				path: $route['path'],
 				controller: $route['controller'] ?? '',
 				action: $route['action'] ?? null,
-				callback: $callback ? function (string $method, Route $route, array $m, string $url) use ($callback) {
-					return $callback($method, $route, $m, $url);
-				} : null,
+				callback: $wrapped_callback,
 				vars: $route['vars'] ?? null,
 				method: $route['method'] ?? null,
 			);

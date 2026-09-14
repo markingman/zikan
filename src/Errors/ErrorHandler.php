@@ -29,6 +29,7 @@ $ErrorHandler->set_view(function (Throwable $e, $m = null) use ($Response, $Page
 
 class ErrorHandler
 {
+	/** @var array<int, string> */
 	protected const array ERROR_CODES = [
 		400 => '400 Bad Request',
 		401 => '401 Unauthorized',

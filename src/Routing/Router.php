@@ -371,9 +371,7 @@ class Router implements RouterInterface
 		$this->action_default = $data['action_default'];
 	}
 
-	/**
-	 * @param array<string> $m
-	 */
+	/** @param array<string> $m */
 	protected function parse_route(string $method, Route $route, array $m, string $url): RouteMatch|false
 	{
 		if (!is_null($route->callback)) {
