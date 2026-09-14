@@ -15,17 +15,20 @@ final class Config implements ConfigInterface
 	 */
 	public function __construct(array $paths = [], ?array $values = null)
 	{
-		$config = [];
+		$configs = [];
 		foreach ($paths as $path) {
-			$config[] = require $path;
+			$config = require $path;
+			if (is_array($config)) {
+				$configs[] = $config;
+			}
 		}
 
 		if ($values) {
-			$config[] = $values;
+			$configs[] = $values;
 		}
 
-		if ($config) {
-			foreach (array_replace_recursive(...$config) as $k => $v) {
+		if ($configs) {
+			foreach (array_replace_recursive(...$configs) as $k => $v) {
 				if (is_string($k) and is_string($v)) {
 					$this->config[$k] = $v;
 				}
