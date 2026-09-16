@@ -125,11 +125,6 @@ class Dispatch implements DispatchInterface
 		exit;// @codeCoverageIgnore
 	}
 
-// 	protected function is_object(mixed $value): bool
-// 	{
-// 		return is_object($value);
-// 	}
-
 	protected function is_callable(mixed $value): bool
 	{
 		return is_callable($value);

@@ -15,7 +15,13 @@ class RouteTest extends TestCase
 		$sprintf = '/user/%d';
 		$name = 'user.show';
 		$regx = '#^/user/(\d+)$#';
-		$callback = fn() => 'Hello';
+		$callback = new class implements RouteCallbackInterface {
+			/** @param array<string> $m */
+			public function __invoke(string $method, Route $route, array $m, string $url): RouteMatch|false
+			{
+				return false;
+			}
+		};
 
 		$route = new Route(
 			controller: $controller,
@@ -36,6 +42,8 @@ class RouteTest extends TestCase
 		$this->assertSame($name, $route->name);
 		$this->assertSame($regx, $route->regx);
 		$this->assertIsCallable($route->callback);
-		$this->assertSame('Hello', ($route->callback)());
+		$this->assertFalse(($route->callback)('', new Route(
+				controller: '', vars: [], action: '', method: 0, sprintf: '', name: '', regx: ''), [], '')
+		);
 	}
 }

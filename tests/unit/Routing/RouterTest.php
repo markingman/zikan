@@ -2,72 +2,16 @@
 
 namespace Zikan\Routing;
 
-use Zikan\Exception\RouterError;
-use Zikan\Exception\RouterException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;
+use Zikan\Exception\RouterError;
+use Zikan\Exception\RouterException;
+use Zikan\Test\TestRouteMatchFalse;
 
 class RouterTest extends TestCase
 {
 	protected Router $Router;
-
-	/**
-	 * @param array<string> $m
-	 * @return false|array{string, string, array<string, string>}
-	 */
-	public static function __test_callback_function(string $method, Route $route, array $m, string $url): array|false
-	{
-		return false;
-	}
-
-	/** @param array<string> $m */
-	public static function __test_callback_invalid_function(string $method, Route $route, array $m, string $url): int
-	{
-		return 100;
-	}
-
-	/**
-	 * @param array<string> $m
-	 */
-	public static function __test_callback_empty_function(string $method, Route $route, array $m, string $url): RouteMatch|false
-	{
-		return new RouteMatch(
-			controller: '',
-			action: 'callback_action',
-			vars: ['var1' => 'ONE', 'var2' => 'TWO'],
-		);
-	}
-
-	/**
-	 * @param array<string> $m
-	 */
-	public static function __test_callback_route_function(string $method, Route $route, array $m, string $url): RouteMatch|false
-	{
-		if ($method !== 'POST') {
-			return false;
-		}
-
-		return new RouteMatch(
-			controller: 'App\\Controller\\Callback',
-			action: 'callback_action',
-			vars: ['var1' => 'ONE', 'var2' => 'TWO'],
-		);
-	}
-
-	/** @param array<mixed> $m */
-	public static function __test_callback_method_function(string $method, Route $route, array $m, string $url): RouteMatch|false
-	{
-		if (!Router::is_route_method($method, $route->method)) {
-			return false;
-		}
-
-		return new RouteMatch(
-			controller: 'App\\Controller\\Callback',
-			action: 'callback_action',
-			vars: [],
-		);
-	}
 
 	public function setUp(): void
 	{
@@ -262,47 +206,6 @@ class RouterTest extends TestCase
 
 	public function testRouteWithSetIndex(): void
 	{
-// 		$route = [
-// 			'path' => '/simple/path/example/{var}',
-// 			'controller' => 'App\\Controller\\Simple',
-// // 			'index' => 'simple',
-// 		];
-//
-// 		$this->Router->add_route('test', $route);
-// 		$res = $this->Router->dump();
-//
-// 		$exp = array(
-//   'iname' =>
-//   array (
-//     'test' => 0,
-//   ),
-//   'routes' =>
-//   array (
-//     0 =>
-//     array (
-//       0 => 'App\\Controller\\Simple',
-//       1 =>
-//       array (
-//         'var' => '',
-//       ),
-//       2 => 'default',
-//       4 => 0,
-//       7 => 'simple/path/example/%s',
-//       8 => 'test',
-//       5 => '~^simple/path/example/([^/]+)$~',
-//     ),
-//   ),
-//   'index' =>
-//   array (
-//     'simple' =>
-//     array (
-//       0 => 0,
-//     ),
-//   ));
-// 		$this->assertEquals($exp, $res, 'Should set default index');
-// 		$this->Router->delete_route('test');
-
-
 		$route = [
 			'path' => '/simple/path/example/{var}',
 			'controller' => 'App\\Controller\\Simple',
@@ -316,32 +219,28 @@ class RouterTest extends TestCase
 		$res = $this->Router->dump();
 
 		$exp = [
-			'iname' =>
-				[
-					'test' => 0,
+			'iname' => [
+				'test' => 0,
+			],
+			'routes' => [
+				0 => new Route(
+					controller: 'App\\Controller\\Simple',
+					vars: [
+						'var' => '',
+					],
+					action: 'default',
+					method: 0,
+					sprintf: 'simple/path/example/%s',
+					name: 'test',
+					regx: '~^simple/path/example/([^/]+)$~',
+					callback: null,
+				),
+			],
+			'index' => [
+				'simple/path/example' => [
+					0 => 0,
 				],
-			'routes' =>
-				[
-					0 => new Route(
-						controller: 'App\\Controller\\Simple',
-						vars: [
-							'var' => '',
-						],
-						action: 'default',
-						method: 0,
-						sprintf: 'simple/path/example/%s',
-						name: 'test',
-						regx: '~^simple/path/example/([^/]+)$~',
-						callback: null,
-					),
-				],
-			'index' =>
-				[
-					'simple/path/example' =>
-						[
-							0 => 0,
-						],
-				]
+			]
 		];
 
 		$this->assertEquals($exp, $res, 'Should set specified index');
@@ -554,10 +453,12 @@ class RouterTest extends TestCase
 	{
 		$route = [
 			'path' => '/callback',
-			'callback' => function (string $method, Route $route, array $m, string $url) {
-				$class = RouterTest::class;
-
-				return $class::__test_callback_function($method, $route, $m, $url);
+			'callback' => new class implements RouteCallbackInterface {
+				/** @param array<string> $m */
+				public function __invoke(string $method, Route $route, array $m, string $url): RouteMatch|false
+				{
+					return false;
+				}
 			}
 		];
 
@@ -575,10 +476,12 @@ class RouterTest extends TestCase
 	{
 		$route = [
 			'path' => '/callback',
-			'callback' => function (string $method, Route $route, array $m, string $url) {
-				$class = RouterTest::class;
-
-				return $class::__test_callback_invalid_function($method, $route, $m, $url);
+			'callback' => new class implements RouteCallbackInterface {
+				/** @param array<string> $m */
+				public function __invoke(string $method, Route $route, array $m, string $url): RouteMatch|false
+				{
+					throw new RuntimeException();
+				}
 			}
 		];
 
@@ -602,10 +505,20 @@ class RouterTest extends TestCase
 	{
 		$route = [
 			'path' => '/callback',
-			'callback' => function (string $method, Route $route, array $m, string $url) {
-				$class = RouterTest::class;
+			'callback' => new class implements RouteCallbackInterface {
+				/** @param array<string> $m */
+				public function __invoke(string $method, Route $route, array $m, string $url): RouteMatch|false
+				{
+					if ($method !== 'POST') {
+						return false;
+					}
 
-				return $class::__test_callback_route_function($method, $route, $m, $url);
+					return new RouteMatch(
+						controller: 'App\\Controller\\Callback',
+						action: 'callback_action',
+						vars: ['var1' => 'ONE', 'var2' => 'TWO'],
+					);
+				}
 			}
 		];
 
@@ -633,10 +546,20 @@ class RouterTest extends TestCase
 		$route = [
 			'path' => '/callback',
 			'method' => ['POST', 'PUT'],
-			'callback' => function (string $method, Route $route, array $m, string $url) {
-				$class = RouterTest::class;
+			'callback' => new class implements RouteCallbackInterface {
+				/** @param array<string> $m */
+				public function __invoke(string $method, Route $route, array $m, string $url): RouteMatch|false
+				{
+					if (!Router::is_route_method($method, $route->method)) {
+						return false;
+					}
 
-				return $class::__test_callback_method_function($method, $route, $m, $url);
+					return new RouteMatch(
+						controller: 'App\\Controller\\Callback',
+						action: 'callback_action',
+						vars: [],
+					);
+				}
 			}
 		];
 
@@ -711,25 +634,17 @@ class RouterTest extends TestCase
 			'test4' => [
 				'path' => '/callback',
 				'method' => ['POST', 'PUT'],
-				'callback' => RouterTest::class . '::__test_callback_method_function'
+				'callback' => new TestRouteMatchFalse(),
 			]
 		];
 
 		foreach ($routes as $name => $route) {
-			$callback = $route['callback'] ?? null;
-			$wrapped_callback = null;
-			if ($callback !== null) {
-				/** @param array<string> $m */
-				$wrapped_callback = function (string $method, Route $route, array $m, string $url) use ($callback) {
-					return $callback($method, $route, $m, $url);
-				};
-			}
 			$this->Router->add_route(
 				name: $name,
 				path: $route['path'],
 				controller: $route['controller'] ?? '',
 				action: $route['action'] ?? null,
-				callback: $wrapped_callback,
+				callback: $route['callback'] ?? null,
 				vars: $route['vars'] ?? null,
 				method: $route['method'] ?? null,
 			);
@@ -775,8 +690,7 @@ class RouterTest extends TestCase
 				sprintf: 'callback',
 				name: 'test4',
 				regx: '~^callback$~',
-				callback: function (string $method, Route $route, array $m, string $url) {
-				},
+				callback: new TestRouteMatchFalse(),
 			)
 		];
 
@@ -1024,6 +938,7 @@ class RouterTest extends TestCase
 			path: '/foo/{id}',
 			controller: 'TestController',
 			action: 'show',
+			callback: new TestRouteMatchFalse(),
 			index: 'foo',
 			vars: ['id' => ''],
 			method: ['GET']
@@ -1056,9 +971,7 @@ class RouterTest extends TestCase
 		$this->assertSame($beforeRoute->vars, $afterRoute->vars);
 		$this->assertSame($beforeRoute->sprintf, $afterRoute->sprintf);
 		$this->assertSame($beforeRoute->regx, $afterRoute->regx);
-
-		// Callbacks must not be preserved
-		$this->assertNull($afterRoute->callback);
+		$this->assertEquals(new TestRouteMatchFalse(), $afterRoute->callback);
 	}
 
 	public function testRouterSerializationRequiresValidIname(): void
@@ -1204,5 +1117,4 @@ class RouterTest extends TestCase
 			throw $e;
 		}
 	}
-
 }

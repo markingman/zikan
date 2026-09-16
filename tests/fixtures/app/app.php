@@ -4,6 +4,7 @@ namespace App;
 
 use Closure;
 use LogicException;
+use Throwable;
 use Zikan\Application;
 use Zikan\Config;
 use Zikan\Container;
@@ -15,11 +16,11 @@ use Zikan\Logs\LogFormatterString;
 use Zikan\Logs\LogHandler;
 use Zikan\Logs\WriteStdErr;
 use Zikan\ObjectCache;
-use Zikan\Test\App\View\Preloader;
 use Zikan\Routing\Dispatch;
 use Zikan\Routing\Links;
+use Zikan\Routing\RouteCallbackInterface;
 use Zikan\Routing\Router;
-use Throwable;
+use Zikan\Test\App\View\Preloader;
 
 // Generic bootstrap (copy and create new as required)
 // Hint: consider Composer autoload files 
@@ -70,7 +71,7 @@ function app(): Application
 					 *     path?: string,
 					 *     controller?: string,
 					 *     action?: string|null,
-					 *     callback?: Closure|null,
+					 *     callback?: RouteCallbackInterface|null,
 					 *     index?: string|null,
 					 *     vars?: array<string, string>|null,
 					 *     method?: string|null
@@ -89,7 +90,7 @@ function app(): Application
 				}
 			}
 		}
-		
+
 		$ObjectCache->cache_put('Router', $Router);
 	}
 	$Container->set('Router', $Router);
