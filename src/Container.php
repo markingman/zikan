@@ -52,9 +52,9 @@ class Container implements ContainerInterface
 		$this->aliases[$alias_name] = $target_name;
 	}
 
-	public function get_alias(string $alias_name): ?string
+	public function get_alias(string $alias_name): string
 	{
-		return $this->aliases[$alias_name] ?? null;
+		return $this->aliases[$alias_name] ?? $alias_name;
 	}
 
 	/** @param ?array<mixed> $args */
@@ -138,7 +138,7 @@ class Container implements ContainerInterface
 	 */
 	public function get(string $name, bool $store_created = true): object
 	{
-		$name = $this->aliases[$name] ?? $name;
+		$name = $this->get_alias($name);
 
 		return $this->instances[$name] ?? $this->create($name, $store_created);
 	}
@@ -175,7 +175,7 @@ class Container implements ContainerInterface
 
 	public function exists(string $name): bool
 	{
-		$name = $this->aliases[$name] ?? $name;
+		$name = $this->get_alias($name);
 
 		return isset($this->instances[$name]) or isset($this->registrations[$name]) or isset($this->registry[$name]);
 	}
@@ -306,7 +306,7 @@ class Container implements ContainerInterface
 				if (!$force_new and isset($this->instances[$p_name])) {
 					$params[$i] = $this->instances[$p_name];
 				} else {
-					$name = $this->aliases[$p_name] ?? $p_name;
+					$name = $this->get_alias($p_name);
 					if (!$this->exists($name)) {
 						$name = $this->get_class_name_from_type($p_type_name);
 					}

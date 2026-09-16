@@ -81,7 +81,7 @@ class ContainerTest extends TestCase
 
 	public function testAlias(): void
 	{
-		$this->assertNull($this->Container->get_alias('Class1'));
+		$this->assertSame('Class1', $this->Container->get_alias('Class1'));
 
 		$this->Container->set_alias('Class1', 'Class2');
 		$this->assertSame('Class2', $this->Container->get_alias('Class1'));
@@ -879,7 +879,6 @@ class ContainerTest extends TestCase
 
 	protected function get_test_class_with_simple_methods(): TestClassWithSimpleMethods
 	{
-
 		$obj = $this->Container->create(TestClassWithSimpleMethods::class);
 
 		if (!$obj instanceof TestClassWithSimpleMethods) {
