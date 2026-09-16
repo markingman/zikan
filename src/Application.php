@@ -11,7 +11,7 @@ use Throwable;
 
 class Application
 {
-	const float APP_VERSION = 3.0;
+	const float APP_VERSION = 3.1;
 
 	public function __construct(
 		public readonly ConfigInterface $Config,

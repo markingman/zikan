@@ -2,7 +2,7 @@
 
 namespace Zikan\Routing;
 
-use Closure;
+use Throwable;
 use Zikan\Exception\RouterError;
 use Zikan\Exception\RouterException;
 
@@ -73,7 +73,7 @@ class Router implements RouterInterface
 		string $path,
 		string $controller = '',
 		?string $action = null,
-		?Closure $callback = null,
+		?RouteCallbackInterface $callback = null,
 		?string $index = null,
 		?array $vars = null,
 		string|array|null $method = null,
@@ -300,13 +300,7 @@ class Router implements RouterInterface
 	{
 		return [
 			'iname' => $this->iname,
-			'routes' => $this->routes,/*array_map(function ($route) {
-				// TODO: remove closures — cannot be serialized
-				if ($route instanceof Route) {
-					$route->callback = null;
-				}
-				return $route;
-			}, $this->routes),*/
+			'routes' => $this->routes,
 			'index' => $this->index,
 			'i' => $this->i,
 			'action_default' => $this->action_default,
@@ -375,14 +369,10 @@ class Router implements RouterInterface
 	protected function parse_route(string $method, Route $route, array $m, string $url): RouteMatch|false
 	{
 		if (!is_null($route->callback)) {
-			$ret = ($route->callback)($method, $route, $m, $url);
-
-			if ($ret === false) {
-				return false;
-			}
-
-			if (!$ret instanceof RouteMatch) {
-				throw new RouterException('callback returned invalid structure', RouterError::INVALID_CALLBACK);
+			try {
+				$ret = ($route->callback)($method, $route, $m, $url);
+			} catch (Throwable $e) {
+				throw new RouterException('callback returned invalid structure', RouterError::INVALID_CALLBACK, previous: $e);
 			}
 
 			return $ret;

@@ -2,8 +2,6 @@
 
 namespace Zikan\Routing;
 
-use Closure;
-
 readonly class Route
 {
 	/** @param array<string, string> $vars */
@@ -15,7 +13,7 @@ readonly class Route
 		public string $sprintf,
 		public string $name,
 		public string $regx,
-		public ?Closure $callback = null
+		public ?RouteCallbackInterface $callback = null
 	) {
 	}
 }

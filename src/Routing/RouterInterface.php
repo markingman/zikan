@@ -2,8 +2,6 @@
 
 namespace Zikan\Routing;
 
-use Closure;
-
 interface RouterInterface
 {
 	public static function is_route_method(string $method, int $route_method): bool;
@@ -24,7 +22,7 @@ interface RouterInterface
 		string $path,
 		string $controller = '',
 		?string $action = null,
-		?Closure $callback = null,
+		?RouteCallbackInterface $callback = null,
 		?string $index = null,
 		?array $vars = null,
 		string|array|null $method = null,
