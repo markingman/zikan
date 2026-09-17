@@ -3,10 +3,10 @@
 namespace Zikan\Errors;
 
 use ErrorException;
-use Zikan\Logs\LogHandler;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;
+use Zikan\Logs\LogHandler;
 
 class ErrorHandlerTest extends TestCase
 {
@@ -65,7 +65,11 @@ class ErrorHandlerTest extends TestCase
 			}
 		};
 
-		$ErrorHandler->set_view(function (Throwable $e): void {
+		$ErrorHandler->set_view(new class implements ErrorViewInterface {
+			public function __invoke(Throwable $e, mixed $m = null): void
+			{
+				throw $e;
+			}
 		});
 		$this->assertTrue($ErrorHandler->test_view_set());
 	}
@@ -79,7 +83,11 @@ class ErrorHandlerTest extends TestCase
 			}
 		};
 
-		$ErrorHandler->set_log(function (Throwable $e): void {
+		$ErrorHandler->set_log(new class implements ErrorLogInterface {
+			public function __invoke(Throwable $e): void
+			{
+				throw $e;
+			}
 		});
 		$this->assertTrue($ErrorHandler->test_log_set());
 	}
@@ -231,28 +239,39 @@ __,
 
 		$excep = new ErrorException('Test exception');
 
-		$log_called = null;
-		$ErrorHandler->set_log(function (Throwable $e) use (&$log_called) {
-			$log_called = $e;
-		});
+		$ErrorLog = new class implements ErrorLogInterface {
+			public ?Throwable $log_called = null;
 
-		$view_called = null;
-		$ErrorHandler->set_view(function (Throwable $e, $m) use (&$view_called) {
-			$view_called = [$e, $m];
-		});
+			public function __invoke(Throwable $e): void
+			{
+				$this->log_called = $e;
+			}
+		};
+		$ErrorHandler->set_log($ErrorLog);
+
+		$ErrorView = new class implements ErrorViewInterface {
+			/** @var array{0: ?Throwable, 1: mixed} $view_called */
+			public array $view_called = [0 => null, 1 => null];
+
+			public function __invoke(Throwable $e, mixed $m = null): void
+			{
+				$this->view_called = [$e, $m];
+			}
+		};
+		$ErrorHandler->set_view($ErrorView);
 
 		$ErrorHandler->handle_exception($excep);
 
-		$this->assertSame($excep, $log_called);
+		$this->assertSame($excep, $ErrorLog->log_called);
 
-		$this->assertSame([$excep, null], $view_called);
+		$this->assertSame([$excep, null], $ErrorView->view_called);
 
 		$ErrorHandler::$test_is_cli_value = true;
 		$ErrorHandler->handle_exception($excep);
 
-		$this->assertSame($excep, $log_called);
+		$this->assertSame($excep, $ErrorLog->log_called);
 
-		$this->assertSame([$excep, null], $view_called);
+		$this->assertSame([$excep, null], $ErrorView->view_called);
 
 		$ErrorHandler = new class extends ErrorHandler {
 			public static bool $test_is_cli_value = false;
@@ -279,18 +298,17 @@ __,
 		$ErrorHandler->set_terminate(false);
 
 		$ErrorHandler->handle_exception($excep);
-
 		$this->assertNull($ErrorHandler::$test_view_called);
 
 		$ErrorHandler::$test_is_cli_value = true;
-		$ErrorHandler->handle_exception($excep);
 
-		$this->assertSame([$excep, null], $view_called);
+		$ErrorHandler->handle_exception($excep);
+		$this->assertSame([$excep, null], $ErrorHandler::$test_view_called);
 
 		$ErrorHandler->set_terminate(true);
-		$ErrorHandler->handle_exception($excep);
 
-		$this->assertSame([$excep, null], $view_called);
+		$ErrorHandler->handle_exception($excep);
+		$this->assertSame([$excep, null], $ErrorHandler::$test_view_called);
 		$this->assertTrue($ErrorHandler::$test_exit_called);
 	}
 

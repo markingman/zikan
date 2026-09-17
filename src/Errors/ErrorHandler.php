@@ -2,10 +2,9 @@
 
 namespace Zikan\Errors;
 
-use Closure;
 use ErrorException;
-use Zikan\Logs\LogHandler;
 use Throwable;
+use Zikan\Logs\LogHandler;
 
 /*
 Example:
@@ -16,15 +15,15 @@ register_shutdown_function([$ErrorHandler, 'handle_shutdown']);
 set_error_handler([$ErrorHandler, 'handle_error']);
 set_exception_handler([$ErrorHandler, 'handle_exception']);
 
-2) Set log and view: (any Closures)
+2) Set log and view:
 
-$ErrorHandler->set_log(function (Throwable $e) use ($LogHandler, $debug) {
-	return (include '/app/error_log_function.php')($e, $LogHandler, $debug);
-});
+$ErrorHandler->set_log($ErrorLog);
+$ErrorHandler->set_view($ErrorView);
 
-$ErrorHandler->set_view(function (Throwable $e, $m = null) use ($Response, $Page) {
-	return (include '/app/error_view_function.php')($Response, $Page, $e);
-});
+Where:
+
+$ErrorLog instanceof ErrorLogInterface
+$ErrorView instanceof ErrorViewInterface
 */
 
 class ErrorHandler
@@ -56,11 +55,9 @@ class ErrorHandler
 	protected bool $terminate = true;
 	protected bool $debug = false;
 
-	/** @var Closure(Throwable): void|null */
-	protected ?Closure $log = null;
+	protected ?ErrorLogInterface $log = null;
 
-	/** @var Closure(Throwable, mixed): void|null */
-	protected ?Closure $view = null;
+	protected ?ErrorViewInterface $view = null;
 
 	public static function log(Throwable $e, ?LogHandler $LogHandler = null, bool $debug = false): void
 	{
@@ -87,6 +84,7 @@ class ErrorHandler
 					$log .= $e->getTraceAsString() . PHP_EOL;
 				}
 			}
+
 			$e = $e->getPrevious();
 			$i++;
 		} while ($e instanceof Throwable);
@@ -145,7 +143,7 @@ __;
 
 	protected static function error_log(string $log): void
 	{
-		error_log($log, match(static::$error_log_msg_type){
+		error_log($log, match (static::$error_log_msg_type) {
 			0, 1, 3, 4 => static::$error_log_msg_type,
 			default => 0
 		}, static::$error_log_destination);
@@ -199,12 +197,12 @@ __;
 		$this->debug = $active;
 	}
 
-	public function set_view(Closure $view): void
+	public function set_view(ErrorViewInterface $view): void
 	{
 		$this->view = $view;
 	}
 
-	public function set_log(Closure $log): void
+	public function set_log(ErrorLogInterface $log): void
 	{
 		$this->log = $log;
 	}
@@ -255,6 +253,6 @@ __;
 
 	protected function exit(int $code = 1): void
 	{
-		exit(($code >= 1 and $code <= 255) ? $code : 1);// @codeCoverageIgnore
+		exit(($code >= 1 and $code <= 255) ? $code : 1); // @codeCoverageIgnore
 	}
 }

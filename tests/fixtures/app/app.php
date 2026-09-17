@@ -4,7 +4,6 @@ namespace App;
 
 use Closure;
 use LogicException;
-use Throwable;
 use Zikan\Application;
 use Zikan\Config;
 use Zikan\Container;
@@ -20,6 +19,8 @@ use Zikan\Routing\Dispatch;
 use Zikan\Routing\Links;
 use Zikan\Routing\RouteCallbackInterface;
 use Zikan\Routing\Router;
+use Zikan\Test\App\Errors\ErrorLog;
+use Zikan\Test\App\Errors\ErrorView;
 use Zikan\Test\App\View\Preloader;
 
 // Generic bootstrap (copy and create new as required)
@@ -43,13 +44,8 @@ function app(): Application
 	set_error_handler([$ErrorHandler, 'handle_error']);
 	set_exception_handler([$ErrorHandler, 'handle_exception']);
 
-	$ErrorHandler->set_log(function (Throwable $e) use ($Container): void {
-		ErrorHandler::log($e, $Container->get_as('Log', LogHandler::class), true);
-	});
-
-	$ErrorHandler->set_view(function (Throwable $e): void {
-		ErrorHandler::view($e);
-	});
+	$ErrorHandler->set_log(new ErrorLog($Container->get_as('Log', LogHandler::class)));
+	$ErrorHandler->set_view(new ErrorView());
 
 	// Example object cache
 
